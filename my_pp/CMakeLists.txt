@@ -37,7 +37,11 @@ add_executable(gripper src/gripper.cpp)
 target_include_directories(gripper PUBLIC include)
 ament_target_dependencies( gripper ${dependencies} )
 
-install(TARGETS pick_place deneme gripper
+add_executable(arm src/arm.cpp)
+target_include_directories(arm PUBLIC include)
+ament_target_dependencies( arm ${dependencies} )
+
+install(TARGETS pick_place deneme gripper arm
   DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY launch

@@ -10,7 +10,7 @@ def generate_launch_description():
     move_group_demo = Node(
         name="move_group_interface_tutorial",
         package="my_pp",
-        executable="gripper",
+        executable="arm",
         output="screen",
         parameters=[
             moveit_config.robot_description,
