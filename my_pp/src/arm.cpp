@@ -30,23 +30,46 @@ int main(int argc, char** argv)
     const auto& arm_group_name = "panda_arm";
     const auto& hand_group_name = "hand";
     const auto& hand_frame = "panda_hand";
+    const auto& arm_hand = "panda_arm_hand";
 
 
-    static const std::string PLANNING_GROUP = "panda_arm";
+    static const std::string PLANNING_GROUP = arm_group_name;
     //create move group ang planning groups
     moveit::planning_interface::MoveGroupInterface move_group(move_group_node, PLANNING_GROUP);
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
-    move_group.setMaxVelocityScalingFactor(0.05);
-    move_group.setMaxAccelerationScalingFactor(0.05);
+    move_group.setMaxVelocityScalingFactor(0.5);
+    move_group.setMaxAccelerationScalingFactor(0.5);
 
     // set target pose
     geometry_msgs::msg::Pose target_pose1;
-    target_pose1.orientation.w = 1.0;
-    target_pose1.position.x = 0.28;
-    target_pose1.position.y = -0.2;
-    target_pose1.position.z = 0.5;
-    move_group.setPoseTarget(target_pose1);
+    target_pose1.position.x = 0.32;
+    target_pose1.position.y = -0.44;
+    target_pose1.position.z = 0.32;
+
+    
+    tf2::Quaternion myq;
+    myq.setRPY(3.14,0,2*M_PI);
+    myq.normalize();
+
+    target_pose1.orientation.w = myq.getW();
+    target_pose1.orientation.x = myq.getX();
+    target_pose1.orientation.y = myq.getY();
+    target_pose1.orientation.z = myq.getZ();
+    
+
+    // yana bakiyor
+    // 0.5 * 4
+    // 0 0.707 0 0.707
+    /*
+    target_pose1.orientation.w = 0.0;
+    target_pose1.orientation.x = 0.0;
+    target_pose1.orientation.y = -1.0;
+    target_pose1.orientation.z = 0.0;
+    */
+    
+    move_group.setPoseTarget(target_pose1, move_group.getEndEffectorLink());
+
 
     // create a plan object to store generated plan
     moveit::planning_interface::MoveGroupInterface::Plan my_plan;
