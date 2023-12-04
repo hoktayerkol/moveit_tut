@@ -7,6 +7,32 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 
 def generate_launch_description():
+
+    robot_name = "moveit_resources_panda"
+
+    # planning_context
+    moveit_config = (
+        MoveItConfigsBuilder(robot_name)
+        .robot_description(file_path="config/panda.urdf.xacro")
+        .planning_pipelines(pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"])
+        .trajectory_execution(file_path="config/gripper_moveit_controllers.yaml")
+        .to_moveit_configs()
+        # moveit_configs.package_path
+        # moveit_configs.robot_description
+        # moveit_configs.robot_description_semantic
+        # moveit_configs.robot_description_kinematics
+        # moveit_configs.planning_pipelines
+        # moveit_configs.trajectory_execution
+        # moveit_configs.planning_scene_monitor
+        # moveit_configs.sensors_3d
+        # moveit_configs.move_group_capabilities
+        # moveit_configs.joint_limits
+        # moveit_configs.moveit_cpp
+        # moveit_configs.pilz_cartesian_limits
+        # # Or to get all the parameters as a dictionary
+        # moveit_configs.to_dict()        
+    )
+    '''
     # planning_context
     moveit_config = (
         MoveItConfigsBuilder("moveit_resources_panda")
@@ -17,6 +43,7 @@ def generate_launch_description():
         )
         .to_moveit_configs()
     )
+    '''
 
     # Load  ExecuteTaskSolutionCapability so we can execute found solutions in simulation
     move_group_capabilities = {
